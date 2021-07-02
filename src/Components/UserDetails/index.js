@@ -46,27 +46,32 @@ function UserDetails() {
     const [attendance, setAttendance] = useState([]);
     const [userCreds, setUserCreds] = useState({});
     const [date, setDate] = useState('');
-    const [taskAssigned, setTaskAssigned] = useState([]);
+    const [taskAssigned, setTaskAssigned] = useState(-1);
     const [isVisible, setIsVisible] = useState(false);
     const [formattedDate, setFormattedDate] = useState([]);
     const [timeSheet, setTimeSheet]=useState([]);
+    const [assignment, setAssignment] = useState([]);
+
     const fetchInventory = () => {
         fetch(`${INVENTORY_API_URL}`)
             .then(res => res.json())
             .then(json => {
-                console.log(json.timeSheets);
+                console.log('data ',json);
                 setData(json);
                 setAttendance(json.attendance)
                 setUserCreds(json.user_credentials)
-                
-                    setTimeSheet(json.timeSheets);
+                setAssignment(json.project)
+               for(var i=0; i<json.time_sheets.length; i++){
+                setTimeSheet(json.time_sheets[i].task)
+      
+              }
             });
     }
     useEffect(() => {
         fetchInventory();
 
     }, []);
-
+    
     const [inEditMode, setInEditMode] = useState({
         status: false,
         rowKey: null
@@ -93,7 +98,7 @@ function UserDetails() {
      * @param newworkHours
      */
     const updateInventory = ({ id, newworkHours }) => {
-        console.log(id, 'id')
+      //  console.log(id, 'id')
         fetch(`${INVENTORY_API_URL_UPDATE}/${id}`, {
             method: "PATCH",
             body: JSON.stringify({
@@ -105,7 +110,7 @@ function UserDetails() {
         })
             .then(response => response.json())
             .then(json => {
-                console.log('updated data', json)
+               // console.log('updated data', json)
                 // reset inEditMode and unit price state values
                 onCancel();
 
@@ -134,20 +139,19 @@ function UserDetails() {
     }
 
     const displayTable = () => {
-        console.log('date', date);
+       // console.log('date', date);
         let newDate = [];
         let newDate1 = [];
         let j = 3;
-        console.log('taskAssigned', taskAssigned);
-         if(date || taskAssigned){
+         if(date && (taskAssigned && taskAssigned!=-1) ){
         for (var i = 0; i <= 3; i++) {
             var d = new Date(date);
             var yesterday = d.setDate(d.getDate() - i);
             const format2 = "YYYY-MM-DD";
             var dateTime2 = Moment(yesterday).format(format2);
-            console.log('yesterday', dateTime2);
+           // console.log('yesterday', dateTime2);
             newDate[j - i] = dateTime2;
-            console.log('new Date', newDate);
+          //  console.log('new Date', newDate);
             setFormattedDate([...newDate]);
             }
 
@@ -156,9 +160,9 @@ function UserDetails() {
             var dayAfter = d.setDate(d.getDate() + i + 1);
             const formatNew = "YYYY-MM-DD";
             var dateTime = Moment(dayAfter).format(formatNew);
-            console.log('dateAfter', dateTime);
+          //  console.log('dateAfter', dateTime);
             newDate1[i] = dateTime;
-            console.log('new Date forward', newDate1);
+          //  console.log('new Date forward', newDate1);
             if(i===2){
                 setFormattedDate(prevState=>[...prevState,...newDate1]);
 
@@ -179,8 +183,10 @@ function UserDetails() {
     }
   
     const assignedTask = (event) => {
+      console.log(event.target.value);
         setTaskAssigned(event.target.value);
       };
+      console.log('timesheet', timeSheet);
     return (
 
         <div className="container">
@@ -224,24 +230,23 @@ function UserDetails() {
           <label style={{paddingRight:10, paddingLeft:50}}>work type</label>
           <Select
           native
-          value={taskAssigned}
+          value={taskAssigned ||''}
           onChange={assignedTask}
           input={<Input />}
-          renderValue={(selected) => selected.join(', ')}
-        
-
-          inputProps={{
-            id: 'select-multiple-native',
-          }}
+          renderValue={(selected) => selected.join('')}   
         >
-          {attendance.map((item) => (
-            <option key={item.task_assigned} value={item.task_assigned}>
-              {item.task_assigned}
+           <option value="none" selected  > 
+            </option> 
+          {assignment.map((item) => (
+         
+            <option key={item.task_name} value={item.task_name}>
+              {item.task_name}
             </option>
+            
           ))}
         </Select>
-          <Box color="text.primary" clone>
-        <Button style={{paddingLeft:50}} onClick={() => displayTable()}>display</Button>
+          <Box style={{marginLeft:50}}color="text.primary" clone>
+        <Button  onClick={() => displayTable()}>display</Button>
         </Box>
           </Paper>
         </Grid>
@@ -332,7 +337,7 @@ function UserDetails() {
                 //         }
                 //     </tbody>
                 // </table>
-                <TableData formattedDate={formattedDate} attendance={attendance} timeSheet={timeSheet}/>
+                <TableData formattedDate={formattedDate} attendance={attendance} taskAssigned={taskAssigned} timeSheet={timeSheet}/>
                 : null}
                 </div>
         </div>

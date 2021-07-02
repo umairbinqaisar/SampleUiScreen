@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import Button from '@material-ui/core/Button';
 const StyledTableCell = withStyles((theme) => ({
     head: {
         backgroundColor: theme.palette.common.black,
@@ -47,9 +47,15 @@ const useStyles = makeStyles({
 export default function TableData(props) {
     let attendance = props.attendance;
     let formattedDate = props.formattedDate;
-    let timeSheet = props.timesheet;
-    const classes = useStyles();
+    let timeSheet = props.timeSheet;
+    let taskAssigned = props.taskAssigned;
+    console.log('taskAssigned', taskAssigned)
+    //   console.log('timeSheet',timeSheet)
 
+    const classes = useStyles();
+const handleTable=(value)=>{
+    console.log(value)
+}
     return (
         <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="customized table">
@@ -65,38 +71,63 @@ export default function TableData(props) {
                             )
                         })}
 
-                        {/* <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell> */}
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {attendance.map((row, i) => (
-                        <StyledTableRow key={row.task_assigned}>
-                            <StyledTableCell component="th" scope="row">
-                                {row.task_assigned}
-                            </StyledTableCell>
-                            <StyledTableCell align="right">{attendance[i][attendance[i].name]}</StyledTableCell>
-                            <StyledTableCell align="right">{attendance[i][attendance[i].name]}</StyledTableCell>
-                            <StyledTableCell align="right">{attendance[i][attendance[i].name]}</StyledTableCell>
-                            {/* <StyledTableCell align="right">111111111111</StyledTableCell> */}
-                            {/* <StyledTableCell align="right">{row.work_hours}</StyledTableCell> */}
-                        </StyledTableRow>
-                    ))}
-                    {/* {attendance.map((row, i) => (
-                        <StyledTableRow key={row.task_assigned}>
-                            <StyledTableCell component="th" scope="row">
-                                {row.task_assigned}
-                            </StyledTableCell>
-                            <StyledTableCell align="right">111111111111</StyledTableCell>
-                            <StyledTableCell align="right">{row.date}</StyledTableCell>
-                            <StyledTableCell align="right">{row.work_hours}</StyledTableCell>
-                            <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                        </StyledTableRow>
-                    ))} */}
-                </TableBody>
+                    {/* {timeSheet.map(row => {
+                        return (
+                            <>
+                            {row.task.map(col => (
+                                <StyledTableRow key={col.task_assigned}>
+                                    <StyledTableCell component="th" scope="row">
+                                        {col.task_assigned}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="right">{col.t1}</StyledTableCell>
+                                    <StyledTableCell align="right">{col.t2}</StyledTableCell>
+                                    <StyledTableCell align="right">{col.t3}</StyledTableCell>
+                                    <StyledTableCell align="right">{col.t4}</StyledTableCell>
+                                    <StyledTableCell align="right">{col.t5}</StyledTableCell>
+                                    <StyledTableCell align="right">{col.t6}</StyledTableCell>
+                                    <StyledTableCell align="right">{col.t7}</StyledTableCell>
+                                </StyledTableRow>
+                            )
+                          )}
+                            </>
+                            )}
+                           
+                     )} */}
+                     {timeSheet? timeSheet.map((row,i) => {
+                         console.log('row id', row);
+                         console.log('taskAssigned', taskAssigned);
+
+                        return (
+                            <>
+                            {taskAssigned === row.task_assigned ?
+                            
+                            
+                                <StyledTableRow key={row.task_assigned}>
+                                    <StyledTableCell scope="row">
+                                        {row.task_assigned}
+                                    </StyledTableCell>
+                                    
+                                    <StyledTableCell align="right">{row.t1+row.t2+row.t3+row.t4+row.t5+row.t6+row.t7}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.t1}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.t2}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.t3}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.t4}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.t5}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.t6}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.t7}</StyledTableCell>
+                                    <StyledTableCell align="right"><Button onClick={handleTable(row)} variant="outlined" color="primary"> Edit</Button></StyledTableCell>
+
+                                </StyledTableRow>
+                             :
+                          null}
+                          </>  )}
+                     ):null}
+
+                            </TableBody>
             </Table>
         </TableContainer>
-    );
+            );
 }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -95,7 +95,7 @@ export default function MiniDrawer() {
     setOpen(false);
   };
   const [isTimeSheetOpen, setIsTimeSheetOpen] = useState(false);
-  const displayTable=(data) =>{
+  const displayTable = (data) => {
     setIsTimeSheetOpen(data);
   }
 
@@ -121,7 +121,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-           Dashboard
+            Dashboard
           </Typography>
         </Toolbar>
       </AppBar>
@@ -144,32 +144,32 @@ export default function MiniDrawer() {
           </IconButton>
         </div>
         <Divider />
-        <List>        
-            <ListItem onClick={()=>displayTable(false)} button key={'Dashboard'}>
-              <ListItemIcon>{ <InboxIcon /> }</ListItemIcon>
-              <ListItemText primary={'Dashboard'} />
-            </ListItem>
-            <Divider />
-            <ListItem onClick={()=>displayTable(true)} button key={'Time Sheet Records'}>
-              <ListItemIcon>{ <MailIcon />}</ListItemIcon>
-              <ListItemText primary={'Time Sheet Records'} />
-            </ListItem>
+        <List>
+          <ListItem onClick={() => displayTable(false)} button key={'Dashboard'}>
+            <ListItemIcon>{<InboxIcon />}</ListItemIcon>
+            <ListItemText primary={'Dashboard'} />
+          </ListItem>
+          <Divider />
+          <ListItem onClick={() => displayTable(true)} button key={'Time Sheet Records'}>
+            <ListItemIcon>{<MailIcon />}</ListItemIcon>
+            <ListItemText primary={'Time Sheet Records'} />
+          </ListItem>
         </List>
       </Drawer>
-      {isTimeSheetOpen ? 
-      
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <div>
-        <UserDetails/>
-        </div>
-      </main>
-      :<>
-       <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <div> Welcome to Dashboard!</div>
+      {isTimeSheetOpen ?
+
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <div>
+            <UserDetails />
+          </div>
         </main>
-      </> }
+        : <>
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <div> Welcome to Dashboard!</div>
+          </main>
+        </>}
     </div>
   );
 }

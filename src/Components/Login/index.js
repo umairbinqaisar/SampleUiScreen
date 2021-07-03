@@ -1,61 +1,4 @@
-// import React from "react";
-// import { useForm } from 'react-hook-form';
-// import { useHistory } from 'react-router-dom';
-
-// function Login() {
-//   //values for login 
-//   const { register, handleSubmit, formState: { errors } } = useForm();
-//   //pushing to home page
-//   let history = useHistory();
-//   // if data submitted 
-//   const onSubmit = (values) => {
-//     console.log(values);
-//     history.push("/Home");
-//   }
-// ;
-//   return (
-//     <form onSubmit={handleSubmit(onSubmit)}>
-
-//       <h3>Log in</h3>
-
-//       <div className="form-group">
-//         <label>Email</label>
-//         <input
-
-//           {...register("email", {
-//             required: "Required",
-//             pattern: {
-//               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-//               message: "invalid email address"
-//             }
-//           })} className="form-control" placeholder="Enter email" type="text" />
-//         {errors.email ? errors.email.type ==="pattern" ? <span style={{ color: 'red' }}>@ is missing</span>: <span style={{ color: 'red' }}>This field is required</span> :null}
-//       </div>
-
-//       <div className="form-group">
-//         <label>Password</label>
-//         <input
-//           {...register('password', {
-//             required: "Required"
-//           })} className="form-control" placeholder="Enter password" type="password" />
-//         {errors.password && <span style={{ color: 'red' }}>This field is required</span>}
-//       </div>
-
-//       {/* <div className="form-group">
-//         <div className="custom-control custom-checkbox">
-//             <input type="checkbox" className="custom-control-input" id="customCheck1" />
-//             <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
-//         </div>
-//     </div> */}
-
-//       <button type="submit" value="submit" className="btn btn-dark btn-lg btn-block">Sign in</button>
-
-//     </form>
-//   );
-// };
-
-// export default Login;
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -71,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 function Copyright() {
- return (
+  return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
@@ -116,20 +59,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   let history = useHistory();
-  
+
   const classes = useStyles();
-  const [ userName, setuserName ] = useState();
+  const [userName, setuserName] = useState();
   const [password, setPassword] = useState();
+  //username and password mandatory
   const onSubmit = () => {
-    console.log('userName :',userName);
-    console.log('password :',password);
-    if(password && userName){
+    if (password && userName) {
       history.push("/Home");
 
-    }else{
-      return
+    } else {
+      return;
     }
-  
+
   }
   return (
     <Grid container component="main" className={classes.root}>
@@ -156,12 +98,12 @@ export default function Login() {
               autoFocus
               value={userName}
               error={userName === ""}
-  helperText={userName === "" ? 'Empty!' : ' '}
-  onChange={
-    (evt)=>{
-      console.log("you have typed: ",setuserName(evt.target.value));
-    }
-  }
+              helperText={userName === "" ? 'Empty!' : ' '}
+              onChange={
+                (evt) => {
+                  console.log("you have typed: ", setuserName(evt.target.value));
+                }
+              }
             />
             <TextField
               variant="outlined"
@@ -175,12 +117,12 @@ export default function Login() {
               autoComplete="current-password"
               value={password}
               error={password === ""}
-  helperText={password === "" ? 'Empty!' : ' '}
-  onChange={
-    (evt)=>{
-      console.log("you have typed: ",setPassword(evt.target.value));
-    }
-  }
+              helperText={password === "" ? 'Empty!' : ' '}
+              onChange={
+                (evt) => {
+                  console.log("you have typed: ", setPassword(evt.target.value));
+                }
+              }
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -192,7 +134,7 @@ export default function Login() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={()=>onSubmit()}
+              onClick={() => onSubmit()}
             >
               Sign In
             </Button>
